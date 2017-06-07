@@ -1,0 +1,11 @@
+{
+    "us dollar":"usd", "usd":"usd", "american industry":"usd", "american economy":"usd", "us gdp":"usd",
+    "sterling":"gbp", "british pound":"gbp", "uk economy":"gbp", "gbp":"gbp", "great britain pound":"gbp",
+    "swiss franc":"chf", "franc ":"chf", " chf":"chf", "chf/":"chf", "chf ":"chf",
+    "australian dollar":"aud", "au dollar":"aud", " aud ":"aud", "aud/":"aud",
+    "xau":"xau", "gold ":"xau", "philadelphia gold and silver index":"xau", "gold and silver index":"xau", "gold silver index":"xau",
+    "nzd":"nzd", "new zealand dollar":"nzd", "nz dollar":"nzd", "kiwi":"nzd", "kiwi dollar":"nzd",
+    "japanese yen":"jpy", "yen":"jpy", "jpy":"jpy", "¥":"jpy", 
+    " cad ":"cad", "cad/":"cad", "canadian dollar":"cad", "can$":"cad", "c$":"cad", "bank of canada":"cad",
+    "eur ":"eur", "eur/":"eur", "euro ":"eur", "€":"eur"
+}

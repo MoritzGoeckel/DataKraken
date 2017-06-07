@@ -61,8 +61,6 @@ module.exports.registerListener = function (onData)
                     delete obj.bid;
                     delete obj.ask;
                     delete obj.avg;
-                    delete obj.volume;
-                    delete obj.currency_volume;
 
                     if(obj.usdvolume > 1000 * 50 && Math.abs(obj.usdask - obj.usdbid) / obj.usdbid < 0.4)
                         onData("btcc", name, obj);

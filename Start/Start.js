@@ -1,8 +1,9 @@
 let parsers = [
-        require('../Retrieval/Parser/BitcoinCharts.js'),
-        require('../Retrieval/Parser/Oanda.js'),
-        require('../Retrieval/Parser/FxcmSSI.js'),
-        require('../Retrieval/Parser/FXCM.js'),
+        require('../Retrieval/TimeseriesParser/BitcoinCharts.js'),
+        require('../Retrieval/TimeseriesParser/Oanda.js'),
+        require('../Retrieval/TimeseriesParser/FxcmSSI.js'),
+        require('../Retrieval/TimeseriesParser/FXCM.js'),
+        require('../Retrieval/TimeseriesParser/CoinCap.js')      
     ];
 
 for(let p in parsers){
@@ -24,5 +25,5 @@ function onTickdataData(source, id, data){
 }
 
 function gotNewData(source, id, valueName, value){
-    console.log(source + "|" + id + "|" + valueName + " -> " + value);    
+    console.log(source + "|" + id.replace("_", "").toLowerCase() + "|" + valueName.toLowerCase() + " -> " + value);    
 }
