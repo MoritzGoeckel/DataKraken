@@ -1,3 +1,8 @@
+const TimeHelper = require('../Time/Time.js');
+
+let time = new TimeHelper();
+console.log("It is " + time.getUTCDate());
+
 let parsers = [
         require('../Retrieval/TimeseriesParser/BitcoinCharts.js'),
         require('../Retrieval/TimeseriesParser/Oanda.js'),
@@ -25,5 +30,5 @@ function onTickdataData(source, id, data){
 }
 
 function gotNewData(source, id, valueName, value){
-    console.log(source + "|" + id.replace("_", "").toLowerCase() + "|" + valueName.toLowerCase() + " -> " + value);    
+    console.log(time.getUTCTimestamp() + " -> " + source + "|" + id.replace("_", "").toLowerCase() + "|" + valueName.toLowerCase() + " -> " + value);    
 }

@@ -3,9 +3,9 @@ const AgentKeepAlive = require('agentkeepalive');
 
 module.exports = class{
 
-    constructor(){
+    constructor(host){
         this.client = new elasticsearch.Client({
-            hosts: ['localhost:9200'],
+            hosts: [host],
             maxRetries: 10,
             keepAlive: true,
             maxSockets: 10,
@@ -23,7 +23,7 @@ module.exports = class{
         let base = this;
 
         this.client.delete({
-            index: 'newsdata',
+            index: '',
             type: '',
             id: ''
             }, function (err, resp) {
@@ -84,12 +84,12 @@ module.exports = class{
         });
     }
 
-    indexArticles(articles, callbackSucess){
+    indexSample(samples, callbackSucess){
         let body = [];
-        for(let i = 0; i < articles.length; i++)
+        for(let i = 0; i < samples.length; i++)
         {
-            body.push({ index:  { _index: 'newsdata', _type: "article" } });
-            body.push( articles[i] );
+            body.push({ index:  { _index: samples[i].name, _type: "article" } });
+            body.push( samples[i].payload );
         }
 
         this.sendToES(body, callbackSucess);
