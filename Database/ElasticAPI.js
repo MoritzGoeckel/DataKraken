@@ -23,36 +23,41 @@ module.exports = class{
         let base = this;
 
         this.client.delete({
-            index: '',
+            index: 'ts_data',
             type: '',
             id: ''
             }, function (err, resp) {
             if(err != null && err != undefined)
                 console.log(err);
             
-            /*base.client.index({
-                index: 'newsdata',
-                type: 'article',
+            base.client.index({
+                index: 'ts_data',
+                type: 'standart',
                 id: '',
                 body: {  }
                 }, function (err, resp) {
                 if(err != null && err != undefined)
                     console.log(err);
                 
-                client.indices.putMapping({
+                base.client.indices.putMapping({
                     body: 
                     {
-                        "article":{
+                        "standart":{
                             "properties":{
-                                "claims": {
-                                    "enabled": false,
-                                    "type" : "object"
+                                "timestamp": {
+                                    "type" : "date"
+                                },
+                                "name":{
+                                    "type" : "keyword"
+                                },
+                                "value":{
+                                    "type" : "double"
                                 }
                             }
                         }
                     },
-                    type: "article",
-                    index: "newsdata"
+                    type: "standart",
+                    index: "ts_data"
                     },function (err, resp) {
                     if(err != null && err != undefined)
                         console.log(err);
@@ -61,7 +66,7 @@ module.exports = class{
                 });
 
                 console.log(resp);
-            });*/
+            });
 
             console.log(resp);
         });
@@ -72,11 +77,9 @@ module.exports = class{
 
         this.client.bulk({ body: body }, function (err, resp) {
             if(err != null && err != undefined){
-                setTimeout(function(){ base.sendToES(body); }, 0);         
+                setTimeout(function(){ base.sendToES(body, callbackSucess); }, 0);         
             
-                console.log("");
-                console.log(err); 
-                console.log("");
+                console.log("ES Insert failed: " + err.message); 
             }
             else{
                 callbackSucess();
@@ -88,10 +91,56 @@ module.exports = class{
         let body = [];
         for(let i = 0; i < samples.length; i++)
         {
-            body.push({ index:  { _index: samples[i].name, _type: "article" } });
-            body.push( samples[i].payload );
+            body.push({ index:  { _index: "ts_data", _type: "standart" } });
+            body.push( samples[i] );
         }
 
         this.sendToES(body, callbackSucess);
+    }
+
+    getData(from, to, name, callback){
+        let allRecords = [];
+        let base = this;
+
+        //"size" : 1000 * 5,
+
+        this.client.search({
+            "index": "ts_data", 
+            "type": "standart",
+            "scroll": '10s',
+            body: {
+                "from" : 0, 
+                "sort" : [ { "timestamp" : {"order" : "asc"}} ],
+                "query" : {
+                    "bool": {
+                        "must": [
+                            {"term" : { "name" : name }},
+                            {"range" : 
+                                {
+                                    "timestamp" : 
+                                    {
+                                        "gte" : from,
+                                        "lt" : to,
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        }, 
+        function getMoreUntilDone(error, response) {
+            response.hits.hits.forEach(function (hit) {
+                allRecords.push(hit._source);
+            });
+            if (response.hits.total !== allRecords.length) {
+                base.client.scroll({
+                    scrollId: response._scroll_id,
+                    scroll: '10s'
+                }, getMoreUntilDone);
+            } else {
+                callback(allRecords);
+            }
+        })
     }
 }

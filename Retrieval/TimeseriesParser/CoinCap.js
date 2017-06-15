@@ -13,9 +13,11 @@ module.exports.registerListener = function (onData)
         connection.on('error', function(error) {
             console.log("Connection Error: " + error.toString());
         });
+        
         connection.on('close', function() {
             //console.log('echo-protocol Connection Closed');
         });
+
         connection.on('message', function(message) {
             if (message.type === 'utf8') {
                 //let data = JSON.parse(message.utf8Data);

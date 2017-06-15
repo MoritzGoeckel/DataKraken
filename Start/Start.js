@@ -1,4 +1,11 @@
 const TimeHelper = require('../Time/Time.js');
+const ES_API = require('../Database/ElasticAPI.js');
+
+const insertInterval = 5 * 1000;
+
+
+let es = new ES_API("localhost:9200");
+es.initDatabase();
 
 let time = new TimeHelper();
 console.log("It is " + time.getUTCDate());
@@ -29,6 +36,20 @@ function onTickdataData(source, id, data){
     }
 }
 
+let q = [];
 function gotNewData(source, id, valueName, value){
-    console.log(time.getUTCTimestamp() + " -> " + source + "|" + id.replace("_", "").toLowerCase() + "|" + valueName.toLowerCase() + " -> " + value);    
+    let name = source + "_" + id.replace("_", "").toLowerCase() + "_" + valueName.toLowerCase();
+    q.push({
+        name:name, 
+        timestamp:time.getUTCTimestamp(), 
+        value:value
+    });
 }
+
+setInterval(function(){
+    if(q.length != 0){
+        let count = q.length;
+        es.indexSample(q, function(){ console.log((count / insertInterval * 1000) + " datasets/s") });
+        q = [];
+    }
+}, insertInterval);
