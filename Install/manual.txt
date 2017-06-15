@@ -21,6 +21,13 @@ sudo -i service elasticsearch stop
 
 curl -XGET 'localhost:9200/?pretty'
 
+wget https://s3-us-west-2.amazonaws.com/grafana-releases/release/grafana_4.3.1_amd64.deb
+sudo apt-get install -y adduser libfontconfig
+sudo dpkg -i grafana_4.3.1_amd64.deb
+
+sudo service grafana-server start
+sudo service grafana-server stop
+
 ############ OLD ###########
 //sudo add-apt-repository -y ppa:webupd8team/java
 //sudo apt-get update

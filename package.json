@@ -13,6 +13,7 @@
     "express": "latest",                
     "compromise": "latest",
     "oanda-adapter": "latest",                    
-    "technicalindicators": "latest"                        
+    "technicalindicators": "latest",
+    "xml2js": "latest"                     
   }
 }
