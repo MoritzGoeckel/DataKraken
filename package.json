@@ -1,0 +1,18 @@
+{
+  "name": "DataKraken",
+  "version": "0.0.0",
+  "dependencies": {
+    "cheerio": "latest",
+    "porter-stemmer": "latest",
+    "elasticsearch": "latest",
+    "agentkeepalive": "latest",
+    "request": "latest",
+    "websocket": "latest",                
+    "express-rest": "latest",                
+    "node-schedule": "latest",                
+    "express": "latest",                
+    "compromise": "latest",
+    "oanda-adapter": "latest",                    
+    "technicalindicators": "latest"                        
+  }
+}
