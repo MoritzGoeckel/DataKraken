@@ -30,6 +30,11 @@ sudo service grafana-server stop
 
 //git reset --hard origin/master
 
+forever start app.js
+forever list
+
+npm install forever -g
+
 ############ OLD ###########
 //sudo add-apt-repository -y ppa:webupd8team/java
 //sudo apt-get update

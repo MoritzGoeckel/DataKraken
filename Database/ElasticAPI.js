@@ -98,6 +98,25 @@ module.exports = class{
         this.sendToES(body, callbackSucess);
     }
 
+    getTypes(callback){
+        this.client.search({
+            "index": "ts_data", 
+            "type": "standart",
+            body: {
+                "aggs" : {
+                    "names" : {
+                        "terms" : { "field" : "name" , "size" : 8000}
+                    }
+                }
+            }
+        }, function(err, res){ 
+            if(res.aggregations.names.sum_other_doc_count != 0) 
+                console.log("There are more documents then displayed!");
+                
+            callback(res.aggregations.names.buckets); 
+        });
+    }
+
     getData(from, to, name, callback){
         let allRecords = [];
         let base = this;
