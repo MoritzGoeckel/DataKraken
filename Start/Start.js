@@ -5,7 +5,7 @@ const insertInterval = 5 * 1000;
 
 
 let es = new ES_API("localhost:9200");
-es.initDatabase();
+//es.initDatabase();
 
 let time = new TimeHelper();
 console.log("It is " + time.getUTCDate());
@@ -49,7 +49,7 @@ function gotNewData(source, id, valueName, value){
 setInterval(function(){
     if(q.length != 0){
         let count = q.length;
-        es.indexSample(q, function(){ console.log((count / insertInterval * 1000) + " datasets/s") });
+        es.indexSample(q, function(){ console.log("receiving " + (count / insertInterval * 1000) + "/s") });
         q = [];
     }
 }, insertInterval);
