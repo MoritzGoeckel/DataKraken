@@ -29,6 +29,6 @@ rest.get('/time', function(req, rest) {
     return rest.ok({now:time.getUTCTimestamp(), ago48h:time.getUTCTimestamp() - (48 * 60 * 60 * 1000), ago24h:time.getUTCTimestamp() - (24 * 60 * 60 * 1000), ago96h:time.getUTCTimestamp() - (96 * 60 * 60 * 1000)});
 });
 
-let listener = exp.listen(this.port, function(){
+let listener = exp.listen(55459, function(){
     console.log('Listening on port ' + listener.address().port);
 });
