@@ -18,7 +18,7 @@ let time = new TimeHelper();
 
 rest.get('/export', function(req, rest) {
     if(req.query.from == undefined || req.query.to == undefined || req.query.instrument == undefined || req.query.interval == undefined)
-        return rest.ok({query:req.query, result:"missing parameters"});
+        return rest.ok({query:req.query, result:"missing parameters", expected:"from,to,instrument,interval"});
 
     exporter.getDownsampledArray(req.query.from, req.query.to, req.query.instrument, req.query.interval, function(res){
         return rest.ok({query:req.query, result:"ok", data:res});
@@ -26,7 +26,7 @@ rest.get('/export', function(req, rest) {
 });
 
 rest.get('/time', function(req, rest) {
-    return rest.ok({now:time.getUTCDate(), ago48h:time.getUTCDate() - (48 * 60 * 60 * 1000), ago24h:time.getUTCDate() - (24 * 60 * 60 * 1000), ago96h:time.getUTCDate() - (96 * 60 * 60 * 1000)});
+    return rest.ok({now:time.getUTCTimestamp(), ago48h:time.getUTCTimestamp() - (48 * 60 * 60 * 1000), ago24h:time.getUTCTimestamp() - (24 * 60 * 60 * 1000), ago96h:time.getUTCTimestamp() - (96 * 60 * 60 * 1000)});
 });
 
 let listener = exp.listen(this.port, function(){
