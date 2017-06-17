@@ -9,6 +9,8 @@ module.exports = class{
             let currentTime = from;
             let lastBeforeTimeSample = undefined;
 
+            console.log("Records to process: " + records.length);
+
             for(let r in records){
                 if(records[r].timestamp <= currentTime)
                     lastBeforeTimeSample = records[r];
@@ -30,6 +32,9 @@ module.exports = class{
                 downsampled.push([currentTime, lastBeforeTimeSample.value]);
 
             downsampled.unshift(["fundamental_timestamp", "fundamental_"+instrument]);
+
+            console.log("Downsampled to: " + downsampled.length);            
+
             callback(downsampled);
         });
     }
