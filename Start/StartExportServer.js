@@ -20,7 +20,7 @@ rest.get('/export', function(req, rest) {
     if(req.query.from == undefined || req.query.to == undefined || req.query.instrument == undefined || req.query.interval == undefined)
         return rest.ok({query:req.query, result:"missing parameters", expected:"from,to,instrument,interval"});
 
-    exporter.getDownsampledArray(req.query.from, req.query.to, req.query.instrument, req.query.interval, function(res){
+    exporter.getDownsampledArray(parseInt(req.query.from), parseInt(req.query.to), req.query.instrument, parseInt(req.query.interval), function(res){
         return rest.ok({query:req.query, result:"ok", data:res});
     });
 });
