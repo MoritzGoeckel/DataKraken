@@ -16,6 +16,8 @@ let rest = ExpressRest(exp);
 
 rest.get('/export', function(req, rest) {
     console.log(req.params);
+    console.log(req.query);
+    
     exporter.getDownsampledArray(0, 150, "Inst", 10, function(res){
         return rest.ok(res);
     });
