@@ -15,7 +15,7 @@ let rest = ExpressRest(exp);
 //exp.use("/", Express.static(__dirname + '/frontend'));
 
 rest.get('/export', function(req, rest) {
-    console.log(req.params.query);
+    console.log(req.params);
     exporter.getDownsampledArray(0, 150, "Inst", 10, function(res){
         return rest.ok(res);
     });
