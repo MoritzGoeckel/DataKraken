@@ -1,5 +1,6 @@
 const TimeHelper = require('../Time/Time.js');
 const ES_API = require('../Database/ElasticAPI.js');
+const Exporter = require('../Export/Exporter.js');
 
 const Express = require('express');
 const ExpressRest = require('express-rest');
