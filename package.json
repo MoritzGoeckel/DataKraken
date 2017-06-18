@@ -15,6 +15,7 @@
     "oanda-adapter": "latest",                    
     "technicalindicators": "latest",
     "xml2js": "latest",
-    "node-rest-client": "latest"                     
+    "node-rest-client": "latest",
+    "jsonfile": "latest"                     
   }
 }

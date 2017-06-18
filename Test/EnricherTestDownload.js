@@ -10,16 +10,16 @@ indicatorStub = {
 
 //http://37.120.167.209:55459/export?from=1497652960505&to=1497739360505&instrument=coincap_xvc_price&interval=1000
 //&from=1497542779803&to=1497646589875
-enricher.download(undefined, 1497542779803, 1497646589875, "oanda_usdzar_ask", 1000, function(data){
+enricher.download(undefined, 1497542779803, 1497646589875, "oanda_eurusd_ask", 1000, function(data){
     let upsampled = enricher.upsample(1497542779803, 1497646589875, 1000, data);
     console.log(data.length + " -> " + upsampled.length);
 
     console.log("## AverageDistance ##")
-    let avgDist = enricher.getAverageDistance(upsampled, 60, 1);
+    let avgDist = enricher.getAverageDistance(upsampled, 60 * 10, 1);
     console.log(avgDist);
 
     console.log("## Outcome ##")
-    enricher.addResolvedHard(upsampled, 60, avgDist, 1);
+    enricher.addResolvedHard(upsampled, 60 * 10, avgDist * 10, 1);
     console.log(upsampled.length);
 });
 

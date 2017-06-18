@@ -3,13 +3,11 @@ module.exports = class{
         this.elastic = elastic;
     }
 
-    getDownsampledArray(from, to, instrument, interval, callback){
+    getDownsampledArray(from, to, instrument, interval, callback){        
         this.elastic.getData(from, to, instrument, function(records){
             let downsampled = [];
             let currentTime = from;
             let lastBeforeTimeSample = undefined;
-
-            console.log("Records to process: " + records.length);
 
             for(let r in records){
                 if(records[r].timestamp <= currentTime)
@@ -33,7 +31,7 @@ module.exports = class{
 
             downsampled.unshift(["fundamental_timestamp", "fundamental_"+instrument]);
 
-            console.log("Downsampled to: " + downsampled.length);            
+            console.log(records.length + " downsampled to " + downsampled.length);            
 
             callback(downsampled);
         });

@@ -1,5 +1,7 @@
-var Client = require('node-rest-client').Client;
+const Client = require('node-rest-client').Client;
 var restClient = new Client();
+const JsonFile = require('jsonfile')
+
 
 module.exports = class{
     constructor(){
@@ -16,12 +18,28 @@ module.exports = class{
         
         if(url == undefined)
             url = "http://37.120.167.209:55459";
-
-        restClient.get(url + "/export", { parameters: { from: from, to: to, instrument: instrument, interval: interval } },
-            function (data, response) {
-                callback(data.data);
+        
+        let file = "../Data/Cache/" + "downloaded-" + from + "-" + to + "-" + instrument + "-" + interval + ".json";
+        JsonFile.readFile(file, function(err, obj){
+            if(err == undefined){
+                console.log("Loading from cache");
+                callback(obj);
             }
-        );
+            else{
+                console.log("Downloading from server");
+                restClient.get(url + "/export", { parameters: { from: from, to: to, instrument: instrument, interval: interval } },
+                    function (data, response) {
+                        JsonFile.writeFile(file, data.data, function (err) {
+                            if(err != undefined)
+                                console.error(err)
+                            else
+                                console.log("Wrote to cache")
+                        });
+                        callback(data.data);
+                    }
+                );
+            }
+        });
     }
 
     upsample(from, to, interval, downsampledData){
