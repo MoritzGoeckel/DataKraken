@@ -125,10 +125,10 @@ module.exports = class{
         this.client.search({
             "index": "ts_data", 
             "type": "standart",
-            "scroll": '10s',
+            "scroll": '30s',
             body: {
-                //"from" : 0, 
                 "sort" : [ { "timestamp" : {"order" : "asc"}} ],
+                "size": 50000, //Richtig? TODO
                 "query" : {
                     "bool": {
                         "must": [
