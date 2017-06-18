@@ -28,7 +28,7 @@ for(let std = 1; std < 4; std++)
             stdDev: std}))
 
 // RSI
-    new Indicators.RSI({period : 2 + i, values : []})
+new Indicators.RSI({period : 2 + i, values : []})
 
 // WEMA
 new ValueMinusIndicator(new Indicators.WEMA({period : 2 + i, values : []}))

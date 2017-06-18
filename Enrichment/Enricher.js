@@ -89,4 +89,36 @@ module.exports = class{
             distanceSum += Math.abs(data[i][fundamentalIndex] - data[i + unitsTimeframe][fundamentalIndex]);
         return distanceSum / (data.length - unitsTimeframe - 1);
     }
+
+    getValueDistribution(data, index){
+        let distribution = {};
+        for(let row = 0; row < data.length; row++){
+            let value = data[i][index];
+            if(distribution[value] == undefined)
+                distribution[value] = 1;
+            else
+                distribution[value]++;
+        }
+
+        for(let key in distribution)
+            distribution[key] /= data.length;
+        
+        return distribution;
+    }
+
+    combineData(targetData, additionData){
+        for(let row = 0; row < additionData.length; row++){ //Iterate rows
+            if(row == 0) //Add header
+                for(let column = 1; column < additionData[0].length; column++)
+                    targetData[0].push(additionData[0][column]); //Add all columns (except timestamp)
+            else
+                if(additionData[row][0] == targetData[row][0]) //Timestamps identical
+                    for(let column = 1; column < additionData[row].length; column++)
+                        targetData[row].push(additionData[row][column]); //Add all columns (except timestamp)
+        }
+    }
+
+    getIndicatorCorrelation(indicator, data, fundamentalIndex){
+        
+    }
 }

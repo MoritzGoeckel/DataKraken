@@ -28,6 +28,12 @@ rest.get('/export', function(req, rest) {
     });
 });
 
+rest.get('/types', function(req, rest) {
+    es.getTypes(function(res){
+        return rest.ok(res);
+    })
+});
+
 rest.get('/time', function(req, rest) {
     return rest.ok({now:time.getUTCTimestamp(), ago48h:time.getUTCTimestamp() - (48 * 60 * 60 * 1000), ago24h:time.getUTCTimestamp() - (24 * 60 * 60 * 1000), ago96h:time.getUTCTimestamp() - (96 * 60 * 60 * 1000)});
 });

@@ -16,6 +16,7 @@
     "technicalindicators": "latest",
     "xml2js": "latest",
     "node-rest-client": "latest",
-    "jsonfile": "latest"                     
+    "jsonfile": "latest",
+    "technicalindicators": "latest"                     
   }
 }
