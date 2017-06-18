@@ -125,7 +125,7 @@ module.exports = class{
         this.client.search({
             "index": "ts_data", 
             "type": "standart",
-            "scroll": '30s',
+            "scroll": '10s',
             "search_type": "scan",
             body: {
                 //"sort" : [ { "timestamp" : {"order" : "asc"}} ],
@@ -149,6 +149,9 @@ module.exports = class{
             }
         }, 
         function getMoreUntilDone(error, response) {
+            if(error != undefined)
+                console.log(error);
+
             response.hits.hits.forEach(function (hit) {
                 allRecords.push(hit._source);
             });
