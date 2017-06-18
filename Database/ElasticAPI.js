@@ -19,7 +19,6 @@ module.exports = class{
     }
 
     initDatabase(){
-
         let base = this;
 
         this.client.delete({
@@ -128,7 +127,7 @@ module.exports = class{
             "type": "standart",
             "scroll": '10s',
             body: {
-                "from" : 0, 
+                //"from" : 0, 
                 "sort" : [ { "timestamp" : {"order" : "asc"}} ],
                 "query" : {
                     "bool": {

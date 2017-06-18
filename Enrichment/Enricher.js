@@ -1,7 +1,29 @@
+var Client = require('node-rest-client').Client;
+var restClient = new Client();
+
 module.exports = class{
     constructor(){
     }
-    
+
+    download(url, from, to, instrument, interval, callback){ //coincap_xvc_price
+        //http://37.120.167.209:55459/export?from=1497652960505&to=1497739360505&instrument=coincap_xvc_price&interval=1000
+        /*var args = {
+            data: { test: "hello" }, // data passed to REST method (only useful in POST, PUT or PATCH methods) 
+            path: { "id": 120 }, // path substitution var 
+            parameters: { arg1: "hello", arg2: "world" }, // this is serialized as URL parameters 
+            headers: { "test-header": "client-api" } // request headers 
+        };*/
+        
+        if(url == undefined)
+            url = "http://37.120.167.209:55459";
+
+        restClient.get(url + "/export", { parameters: { from: from, to: to, instrument: instrument, interval: interval } },
+            function (data, response) {
+                callback(data.data);
+            }
+        );
+    }
+
     upsample(from, to, interval, downsampledData){
         let dataIndex = 1;
         let output = [];
