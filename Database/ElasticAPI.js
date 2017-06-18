@@ -126,9 +126,10 @@ module.exports = class{
             "index": "ts_data", 
             "type": "standart",
             "scroll": '30s',
+            "search_type": "scan",
             body: {
-                "sort" : [ { "timestamp" : {"order" : "asc"}} ],
-                "size": 50000, //Richtig? TODO
+                //"sort" : [ { "timestamp" : {"order" : "asc"}} ],
+                "size": 1000, //Richtig? TODO
                 "query" : {
                     "bool": {
                         "must": [
@@ -157,7 +158,7 @@ module.exports = class{
                     scroll: '10s'
                 }, getMoreUntilDone);
             } else {
-                callback(allRecords);
+                callback(allRecords.sort(function(a,b) {return (a.timestamp > b.timestamp) ? 1 : ((b.timestamp > a.timestamp) ? -1 : 0);} )); //Todo: Richtig herum? Muss aufsteigend
             }
         })
     }
