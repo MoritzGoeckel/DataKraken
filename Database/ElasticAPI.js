@@ -126,7 +126,6 @@ module.exports = class{
             "index": "ts_data", 
             "type": "standart",
             "scroll": '10s',
-            "search_type": "scan",
             body: {
                 //"sort" : [ { "timestamp" : {"order" : "asc"}} ],
                 //"size": 1000, //Richtig? TODO
