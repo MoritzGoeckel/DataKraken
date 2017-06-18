@@ -129,7 +129,7 @@ module.exports = class{
             "search_type": "scan",
             body: {
                 //"sort" : [ { "timestamp" : {"order" : "asc"}} ],
-                "size": 1000, //Richtig? TODO
+                //"size": 1000, //Richtig? TODO
                 "query" : {
                     "bool": {
                         "must": [
