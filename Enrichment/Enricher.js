@@ -7,6 +7,24 @@ module.exports = class{
     constructor(){
     }
 
+    save(data, file){
+        JsonFile.writeFile("../Data/Cache/" + file, data, function (err) {
+            if(err != undefined)
+                console.error(err)
+            else
+                console.log("Wrote to cache: " + file)
+        });
+    }
+
+    load(file, callback){
+        JsonFile.readFile("../Data/Cache/" + file, function(err, obj){
+            if(err == undefined)
+                callback(obj);
+            else 
+            console.log(err);
+        });
+    }
+
     download(url, from, to, instrument, interval, callback){ //coincap_xvc_price
         //http://37.120.167.209:55459/export?from=1497652960505&to=1497739360505&instrument=coincap_xvc_price&interval=1000
         /*var args = {
@@ -22,18 +40,18 @@ module.exports = class{
         let file = "../Data/Cache/" + "downloaded-" + from + "-" + to + "-" + instrument + "-" + interval + ".json";
         JsonFile.readFile(file, function(err, obj){
             if(err == undefined){
-                console.log("Loading from cache");
+                console.log("Loading from cache: " + instrument);
                 callback(obj);
             }
             else{
-                console.log("Downloading from server");
+                console.log("Downloading from server: " + instrument);
                 restClient.get(url + "/export", { parameters: { from: from, to: to, instrument: instrument, interval: interval } },
                     function (data, response) {
                         JsonFile.writeFile(file, data.data, function (err) {
                             if(err != undefined)
                                 console.error(err)
                             else
-                                console.log("Wrote to cache")
+                                console.log("Wrote to cache: " + instrument)
                         });
                         callback(data.data);
                     }
@@ -42,17 +60,22 @@ module.exports = class{
         });
     }
 
-    upsample(from, to, interval, downsampledData){
+    upsample(from, to, interval, downsampledData, maxDataAge){
         let dataIndex = 1;
         let output = [];
 
         output.push(downsampledData[0]); //Header
 
-        for(let timestamp = from; timestamp <= to; timestamp += interval){
+        for(let timestamp = from; timestamp <= to; timestamp += interval)
+        {
             while(dataIndex + 1 < downsampledData.length && downsampledData[dataIndex + 1][0] <= timestamp)
                 dataIndex += 1;
 
-            output.push([timestamp, downsampledData[dataIndex][1]]);
+            let dataAge = timestamp - downsampledData[dataIndex][0];
+            if(dataAge < maxDataAge)
+                output.push([timestamp, downsampledData[dataIndex][1]]);
+            else
+                output.push([timestamp, NaN]);
         }
 
         return output;
@@ -62,7 +85,10 @@ module.exports = class{
         data[0].push("technical_" + indicator.name);
 
         for(let i = 1; i < data.length; i++)
-            data[i].push(indicator.nextValue(data[i][fundamentalIndex]));
+            if(isNaN(data[i][fundamentalIndex]) == false)
+                data[i].push(indicator.nextValue(data[i][fundamentalIndex]));
+            else
+                data[i].push(NaN);
     }
 
     addResolvedHard(data, unitsTimeframe, distance, fundamentalIndex){
@@ -93,7 +119,7 @@ module.exports = class{
     getValueDistribution(data, index){
         let distribution = {};
         for(let row = 0; row < data.length; row++){
-            let value = data[i][index];
+            let value = data[row][index];
             if(distribution[value] == undefined)
                 distribution[value] = 1;
             else
@@ -118,7 +144,68 @@ module.exports = class{
         }
     }
 
-    getIndicatorCorrelation(indicator, data, fundamentalIndex){
+    addDerived(targetData, name, deriveFunction){
+        targetData[0].push("derived_" + name);
+        for(let row = 1; row < targetData.length; row++)
+            targetData[row].push(deriveFunction(targetData[row]));
+    }
+
+    getColumnIndex(data, name){
+        for(let column = 0; column < data[0].length; column++)
+            if(data[0][column] == name)
+                return column;
         
+        console.log("Column " + name + " not found in header: " + data[0]);
+        return -1;
+    }
+
+    getIndicatorCorrelation(indicator, data, fundamentalIndex, outcomeIndex){
+
+        //Collect all indicator values with each outcomeCode
+        let outcomeToValues = {};
+        for(let i = 1; i < data.length; i++){ //i = 0 -> Header
+            if(isNaN(data[i][fundamentalIndex]) == false){
+                let indicatorValue = indicator.nextValue(data[i][fundamentalIndex]);
+                if(isNaN(data[i][outcomeIndex]) == false && isNaN(indicatorValue) == false)
+                {
+                    if(outcomeToValues[data[i][outcomeIndex]] == undefined)
+                        outcomeToValues[data[i][outcomeIndex]] = [];
+                    
+                    outcomeToValues[data[i][outcomeIndex]].push(indicatorValue);
+                }
+            }
+        }
+
+        //Average out all indicator values with the outcome code
+        let outcomeToAverages = {};
+        for(let outcomeValue in outcomeToValues)
+        {
+            outcomeToAverages[outcomeValue] = 0;
+
+            let samples = 0;
+            for(let i = 0; i < outcomeToValues[outcomeValue].length; i++){
+                if(isFinite(outcomeToValues[outcomeValue][i])){
+                    outcomeToAverages[outcomeValue] += outcomeToValues[outcomeValue][i];
+                    samples++;
+                }
+            }
+
+            outcomeToAverages[outcomeValue] /= samples;
+        }
+
+        //Get the distance between the averages
+        let avgSum = 0;
+        let avgItems = 0;
+
+        let keys = Object.keys(outcomeToAverages);
+        for(let i = 0; i < keys.length; i++)
+            for(let a = i + 1; a < keys.length; a++)
+            {
+                avgSum += Math.abs(outcomeToAverages[keys[i]] - outcomeToAverages[keys[a]]);
+                avgItems++;
+            }
+
+        //The average distance
+        return avgSum / avgItems;
     }
 }
