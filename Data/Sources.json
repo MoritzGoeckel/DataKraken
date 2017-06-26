@@ -23,7 +23,8 @@
 {"url": "http://www.breitbart.com/", "name": "Breitbart", "id": "btb"},
 {"url": "https://www.buzzfeed.com/news", "name": "BuzzfeedNews", "id":"bzzn"},
 {"url": "http://www.cnbc.com/world/", "name": "CNBC", "id":"cnbc"},
-{"url": "https://www.bloomberg.com/europe", "name": "Bloomberg", "id":"blm"},
+{"url": "https://www.bloomberg.com/europe", "name": "BloombergEU", "id":"blme"},
+{"url": "https://www.bloomberg.com/markets", "name": "BloombergMarkets", "id":"blmm"},
 {"url": "https://www.forbes.com/", "name": "Forbes", "id":"for"},
 {"url": "https://www.buzzfeed.com/", "name": "Buzzfeed", "id":"bzz"},
 {"url": "http://www.huffingtonpost.com/", "name": "HuffingtonPost", "id":"hp"},
@@ -41,6 +42,7 @@
 {"url": "http://asia.nikkei.com/", "name": "Nikkei", "id":"nik"},
 {"url": "http://www.japantimes.co.jp/", "name": "JapanTimes", "id":"jpt"},
 {"url": "https://seekingalpha.com/market-news", "name": "SeekingAlpha", "id":"ska"},
+{"url": "https://seekingalpha.com/stock-ideas", "name": "SeekingAlphaStockIdeas", "id":"skai"},
 {"url": "http://www.barrons.com/", "name": "Barrons", "id":"bro"},
 {"url": "http://www.rttnews.com/", "name": "RTTNews", "id":"rttn"},
 {"url": "http://www.otcmarkets.com/news/otc-news", "name": "OTCMarkets", "id":"otcm"},
@@ -54,5 +56,12 @@
 {"url": "http://www.nasdaq.com/news/", "name": "Nasdaq", "id":"nasdaq"},
 {"url": "http://www.motherjones.com/", "name": "MotherJones", "id":"moj"},
 {"url": "http://www.politico.com/", "name": "Politico", "id":"pol"},
-{"url": "https://www.dailyfx.com/market-news", "name": "Dailyfx", "id":"dfx"}
+{"url": "https://www.dailyfx.com/market-news", "name": "Dailyfx", "id":"dfx"},
+{"url": "http://www.kitco.com/pressrelease/", "name": "KitcoPress", "id":"ktcp"},
+{"url": "http://www.kitco.com/market/marketnews.html", "name": "KitcoMarket", "id":"ktcm"},
+{"url": "http://www.kitco.com/", "name": "Kitco", "id":"ktc"},
+{"url": "https://finance.yahoo.com/", "name": "YahooFinance", "id":"yhof"},
+{"url": "https://www.yahoo.com/news/", "name": "YahooNews", "id":"yhon"},
+{"url": "https://www.thestreet.com/", "name": "TheStreet", "id":"tstrt"},
+{"url": "http://www.nytimes.com/pages/business/dealbook/index.html", "name": "DealBook", "id":"dealbk"}
 ]
