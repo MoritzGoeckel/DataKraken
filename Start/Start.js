@@ -15,7 +15,8 @@ let parsers = [
         require('../Retrieval/TimeseriesParser/Oanda.js'),
         require('../Retrieval/TimeseriesParser/FxcmSSI.js'),
         require('../Retrieval/TimeseriesParser/FXCM.js'),
-        require('../Retrieval/TimeseriesParser/CoinCap.js')      
+        require('../Retrieval/TimeseriesParser/CoinCap.js'),
+        require('../Retrieval/TimeseriesParser/Coinmarketcap.js')                    
     ];
 
 for(let p in parsers){
