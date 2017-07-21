@@ -1,4 +1,4 @@
-Coinmarketcap = require("../Retrieval/TimeseriesParser/Coinmarketcap.js");
+Coinmarketcap = require("../Retrieval/TimeseriesParser/CoinCapHTTP.js"); //Coinmarketcap
 
 Coinmarketcap.registerListener(function(market, name, data){
     console.log(market)
