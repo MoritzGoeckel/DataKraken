@@ -25,7 +25,7 @@ module.exports.registerListener = function (onData)
         client.on('connect', function(connection) {
             connection.on('error', function(error) {
                 console.log("Connection Error: " + error.toString());
-                connection.close();
+                restart();
             });
             
             connection.on('close', function() {
