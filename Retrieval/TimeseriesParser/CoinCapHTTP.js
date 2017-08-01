@@ -10,7 +10,18 @@ module.exports.registerListener = function (onData)
             if(err != null)
                 console.log(err);
             
-            resp = JSON.parse(res.body)
+            //Sometimes it returns a html page
+            resp = [];
+            try{
+                resp = JSON.parse(res.body);
+            }
+            catch(exception){
+                console.error("CoincapHTTP Error: Could not parse JSON");
+                console.error("Got exception:");
+                console.error(exception);
+                console.error("Recieved response:");
+                console.error(resp);
+            }
 
             for(let r in resp){
                 let output = {};
