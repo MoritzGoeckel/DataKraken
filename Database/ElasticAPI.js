@@ -125,7 +125,7 @@ module.exports = class{
         this.client.search({
             "index": "ts_data", 
             "type": "standart",
-            "scroll": '10s',
+            "scroll": '30s',
             body: {
                 //"sort" : [ { "timestamp" : {"order" : "asc"}} ],
                 //"size": 1000, //Richtig? TODO
@@ -157,7 +157,7 @@ module.exports = class{
             if (response.hits.total !== allRecords.length) {
                 base.client.scroll({
                     scrollId: response._scroll_id,
-                    scroll: '10s'
+                    scroll: '30s'
                 }, getMoreUntilDone);
             } else {
                 callback(allRecords.sort(function(a,b) {return (a.timestamp > b.timestamp) ? 1 : ((b.timestamp > a.timestamp) ? -1 : 0);} )); //Todo: Richtig herum? Muss aufsteigend

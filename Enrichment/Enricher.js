@@ -45,7 +45,19 @@ module.exports = class{
             }
             else{
                 console.log("Downloading from server: " + instrument);
-                restClient.get(url + "/export", { parameters: { from: from, to: to, instrument: instrument, interval: interval } },
+                restClient.get(url + "/export", 
+                    { 
+                        parameters: { from: from, to: to, instrument: instrument, interval: interval },
+                        requestConfig: {
+                            timeout: 2 * 60 * 1000, //request timeout in milliseconds 
+                            noDelay: true, //Enable/disable the Nagle algorithm 
+                            keepAlive: true, //Enable/disable keep-alive functionalityidle socket. 
+                            keepAliveDelay: 1000 //and optionally set the initial delay before the first keepalive probe is sent 
+                        },
+                        responseConfig: {
+                            timeout: 2 * 60 * 1000 //response timeout 
+                        } 
+                    },
                     function (data, response) {
                         JsonFile.writeFile(file, data.data, function (err) {
                             if(err != undefined)
