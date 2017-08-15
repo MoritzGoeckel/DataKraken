@@ -33,5 +33,6 @@ importer.download(1502449762699, 1502795362684, 1000 * 60, 10 * 60 * 1000, funct
     enricher.addDerived(data, "fxcm_oanda_diff", function(row){ return ((row[fxcmAskIndex] + row[fxcmBidIndex]) / 2) - ((row[oandaAskIndex] + row[oandaBidIndex]) / 2); });    
     data = enricher.upsample(1502449762699, 1502795362684, 1000 * 60, data, 10 * 60 * 1000);
     enricher.saveCSV(data, "export.csv");
+    enricher.save(data, "export.json");    
     console.log("Written / Done");
 });
