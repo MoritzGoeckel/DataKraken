@@ -14,7 +14,7 @@ module.exports = class{
                 return new AgentKeepAlive(connection.makeAgentConfig(config));
             },
             log: 'error',
-            requestTimeout: 20 * 1000
+            requestTimeout: 0
         });
     }
 
