@@ -122,6 +122,8 @@ module.exports = class{
 
         //"size" : 1000 * 5,
 
+        //console.log("Downloading with elastic api");
+
         this.client.search({
             "index": "ts_data", 
             "type": "standart",
@@ -155,6 +157,8 @@ module.exports = class{
                 allRecords.push(hit._source);
             });
             if (response.hits.total !== allRecords.length) {
+                console.log("Got " + allRecords.length + " / " + response.hits.total);
+                
                 base.client.scroll({
                     scrollId: response._scroll_id,
                     scroll: '30s'

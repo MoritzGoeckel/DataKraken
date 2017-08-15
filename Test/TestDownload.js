@@ -11,7 +11,7 @@ let importer = new Importer([   "oanda_eurusd_ask", "oanda_eurusd_bid",
                                 "fxcm_eurusd_bid", "fxcm_eurusd_ask"    ]);
 
 console.log("Download");
-importer.download(1502793937000 - (30 * 24 * 60 * 60 * 1000), 1502793937000, 1000 * 60, 10 * 60 * 1000, function(data){
+importer.download(1502449762699, 1502795362684, 1000 * 60, 10 * 60 * 1000, function(data){
     let llIndex = enricher.getColumnIndex(data, "fundamental_fxcmssi_eurusd_longloss");
     let lwIndex = enricher.getColumnIndex(data, "fundamental_fxcmssi_eurusd_longwin");
 
