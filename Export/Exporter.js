@@ -15,7 +15,7 @@ module.exports = class{
                 else {
                     if(lastBeforeTimeSample != undefined){
                         
-                        if(downsampled[downsampled.length - 1][1] != lastBeforeTimeSample.value) //When value different
+                        if(downsampled.length != 0 && downsampled[downsampled.length - 1][1] != lastBeforeTimeSample.value) //When value different
                             downsampled.push([currentTime, lastBeforeTimeSample.value]);
 
                         lastBeforeTimeSample = undefined;

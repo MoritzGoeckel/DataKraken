@@ -130,7 +130,7 @@ module.exports = class{
             "scroll": '30s',
             body: {
                 //"sort" : [ { "timestamp" : {"order" : "asc"}} ],
-                //"size": 1000, //Richtig? TODO
+                "size": 1000, //Richtig? TODO
                 "query" : {
                     "bool": {
                         "must": [
