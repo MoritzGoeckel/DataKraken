@@ -16,6 +16,17 @@ module.exports = class{
         });
     }
 
+    saveCSV(data, file){
+        var fs = require('fs')
+        var writer = fs.createWriteStream("../Data/Cache/" + file, {
+        flags: 'a' // 'a' means appending (old data will be preserved)
+        })
+        for(let i = 0; i < data.length; i++)
+            writer.write(data[i].join(";") + "\n");
+
+        writer.end();
+    }
+
     load(file, callback){
         JsonFile.readFile("../Data/Cache/" + file, function(err, obj){
             if(err == undefined)
@@ -84,10 +95,20 @@ module.exports = class{
                 dataIndex += 1;
 
             let dataAge = timestamp - downsampledData[dataIndex][0];
-            if(dataAge < maxDataAge)
-                output.push([timestamp, downsampledData[dataIndex][1]]);
-            else
-                output.push([timestamp, NaN]);
+            if(dataAge < maxDataAge){
+                let arr = [];
+                arr.push(timestamp);
+                for(let i = 1; i < downsampledData[dataIndex].length; i++)
+                    arr.push(downsampledData[dataIndex][i]);
+                output.push(arr);
+            }
+            else{
+                let arr = [];
+                arr.push(timestamp);
+                for(let i = 1; i < downsampledData[dataIndex].length; i++)
+                    arr.push(NaN);
+                output.push(arr);
+            }
         }
 
         return output;

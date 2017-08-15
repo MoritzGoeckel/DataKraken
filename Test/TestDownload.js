@@ -31,6 +31,7 @@ importer.download(1502449762699, 1502795362684, 1000 * 60, 10 * 60 * 1000, funct
     enricher.addDerived(data, "oanda_spread", function(row){ return row[oandaAskIndex] - row[oandaBidIndex]; });
     
     enricher.addDerived(data, "fxcm_oanda_diff", function(row){ return ((row[fxcmAskIndex] + row[fxcmBidIndex]) / 2) - ((row[oandaAskIndex] + row[oandaBidIndex]) / 2); });    
-    enricher.save(data, "export.json");
+    data = enricher.upsample(1502449762699, 1502795362684, 1000 * 60, data, 10 * 60 * 1000);
+    enricher.saveCSV(data, "export.csv");
     console.log("Written / Done");
 });
